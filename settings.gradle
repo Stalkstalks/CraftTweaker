@@ -1,24 +1,23 @@
-rootProject.name = 'MineTweaker3'
 
-// --------------
-// building stuff
-// --------------
-
-// Find the directories containing a "build.gradle" file in the root directory
-// of the project. That is, every directory containing a "build.gradle" will
-// be automatically the subproject of this project.
-def subDirs = rootDir.listFiles(new FileFilter() {
-    public boolean accept(File file) {
-        if (!file.isDirectory()) {
-            return false
+pluginManagement {
+    repositories {
+        maven {
+            // RetroFuturaGradle
+            name "GTNH Maven"
+            url "https://nexus.gtnewhorizons.com/repository/public/"
+            mavenContent {
+                includeGroup("com.gtnewhorizons")
+                includeGroupByRegex("com\\.gtnewhorizons\\..+")
+            }
         }
-        if (file.name == 'buildSrc') {
-            return false
-        }
-        return new File(file, 'build.gradle').isFile()
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
     }
-});
-
-subDirs.each { File dir ->
-    include dir.name
 }
+
+plugins {
+    id 'com.gtnewhorizons.gtnhsettingsconvention' version '1.0.26'
+}
+
+
